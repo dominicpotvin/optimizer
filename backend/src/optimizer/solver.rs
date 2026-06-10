@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 //! Resolution du probleme de decoupe 1D (cutting stock) avec :
 //! - plusieurs longueurs de stock (dispo limitee ou illimitee),
 //! - trait de scie (kerf) par coupe,

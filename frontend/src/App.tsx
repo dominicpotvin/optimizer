@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 import { useEffect, useRef, useState } from 'react'
 import LengthInput from './LengthInput'
 import ResultView from './ResultView'
@@ -266,9 +267,12 @@ export default function App() {
   return (
     <div className="wrap">
       <header className="app">
-        <div>
-          <h1>Optimiseur de coupe</h1>
-          <p className="sub">Plans de coupe d'extrusions — minimisation des pertes · GestEase</p>
+        <div className="brand">
+          <img className="brand-logo" src="/LogoGestEase256.ico" alt="GestEase" />
+          <div>
+            <h1>Optimiseur de coupe</h1>
+            <p className="sub">Plans de coupe d'extrusions — minimisation des pertes · GestEase</p>
+          </div>
         </div>
         <div className="seg" role="group" aria-label="systeme d'unites">
           <button className={system === 'imperial' ? 'active' : ''} onClick={() => setSystem('imperial')}>

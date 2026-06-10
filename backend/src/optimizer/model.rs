@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 //! Types du domaine pour l'optimiseur de coupe (1D cutting stock).
 //!
 //! Toutes les longueurs sont exprimees en **micrometres (i64)** afin de

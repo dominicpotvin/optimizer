@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 import { useEffect, useState } from 'react'
 import { fmtValue, parseLength, type LengthUnit } from './units'
 

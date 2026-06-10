@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 //! Persistance PostgreSQL (sqlx) : enregistrement et historique des jobs.
 //!
 //! Schema volontairement simple : un seul tableau `jobs` avec les longueurs de

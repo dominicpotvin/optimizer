@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 //! Generation des fichiers CSV : modele d'import et export du plan de coupe.
 
 use crate::api::PartDrilling;

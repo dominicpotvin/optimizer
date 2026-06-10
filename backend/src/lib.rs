@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 //! Bibliotheque de l'optimiseur de coupe.
 //!
 //! Le binaire (`main.rs`) expose ce moteur via une API HTTP (Axum) + PostgreSQL.

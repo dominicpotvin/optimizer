@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 //! Conversions d'unites vers/depuis le micrometre (i64), l'unite interne.
 //!
 //! Le frontend gere la saisie en pi-po / mm ; ces helpers servent aux tests

@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 //! Repartition symetrique des trous de percage sur une piece, selon le
 //! cahier des charges d'origine (calcul-percage). Port fidele de l'algorithme,
 //! en arithmetique micrometres (i64).

@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 //! Import d'une liste de coupe depuis un fichier Excel (.xlsx) ou CSV.
 //!
 //! Colonnes reconnues (entetes insensibles a la casse/accents/espaces) :

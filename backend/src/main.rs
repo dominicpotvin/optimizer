@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 //! Serveur HTTP de l'optimiseur de coupe (Axum + PostgreSQL).
 //!
 //! Endpoints :

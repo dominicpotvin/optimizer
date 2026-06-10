@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 //! Analyse de longueurs saisies en texte (impérial ou métrique) vers micrometres.
 //!
 //! Formats acceptes (exemples) :

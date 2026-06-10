@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 import { formatLength, type UnitSystem } from './units'
 import type { BarPlan, PartType, Solution } from './types'
 

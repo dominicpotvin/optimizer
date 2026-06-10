@@ -1,3 +1,4 @@
+// (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 export type UnitSystem = 'imperial' | 'metric'
 export type LengthUnit = 'pi' | 'po' | 'mm'
 

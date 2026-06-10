@@ -1,32 +1,42 @@
+/* (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE). */
 :root {
-  --bg: #0f1115;
-  --surface: #181b22;
-  --surface-2: #20242d;
-  --border: #2c313c;
-  --text: #e6e9ef;
-  --text-dim: #9aa3b2;
-  --accent: #4f8cff;
-  --accent-hover: #3d76e0;
-  --ok: #3fb950;
-  --warn: #d29922;
-  --err: #f85149;
-  --reuse: #2ea043;
-  --radius: 8px;
+  /* Palette officielle GestEase — thème clair par défaut.
+     Source : gestease-frontend/src/styles/_tokens.css */
+  --brand: #0EA5E9;
+  --brand-dark: #0F1E2E;
+  --brand-alt: #12304A;
+  --bg: #F5F7FA;
+  --surface: #FFFFFF;
+  --surface-2: #F3F4F6;
+  --border: #D1D5DB;
+  --text: #1E1E1E;
+  --text-dim: #687280;
+  --accent: #0EA5E9;
+  --accent-hover: #0284C7;
+  --text-on-accent: #FFFFFF;
+  --primary: #334155;
+  --ok: #10B981;
+  --warn: #F59E0B;
+  --err: #EF4444;
+  --reuse: #10B981;
+  --radius: 6px;
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
-    --bg: #f4f6fa;
-    --surface: #ffffff;
-    --surface-2: #f0f2f6;
-    --border: #d8dde6;
-    --text: #1a1d24;
-    --text-dim: #5a6472;
-    --accent: #2f6fed;
-    --accent-hover: #245bc7;
-    --ok: #1a7f37;
-    --warn: #9a6700;
-    --err: #cf222e;
-    --reuse: #1a7f37;
+    --bg: #1A1C20;
+    --surface: #24262C;
+    --surface-2: #2A2D35;
+    --border: #32353E;
+    --text: #F5F5F5;
+    --text-dim: #A7A7A7;
+    --accent: #38BDF8;
+    --accent-hover: #0EA5E9;
+    --ok: #34D399;
+    --warn: #FBBF24;
+    --err: #F87171;
+    --reuse: #34D399;
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
   }
 }
 * { box-sizing: border-box; }
@@ -52,7 +62,11 @@ header.app .sub { color: var(--text-dim); font-size: 0.85rem; margin: 2px 0 0; }
   border-radius: var(--radius);
   padding: 18px;
   margin-bottom: 18px;
+  box-shadow: var(--shadow);
 }
+
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-logo { width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0; }
 .card h2 { font-size: 1rem; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
 .card .hint { color: var(--text-dim); font-size: 0.8rem; margin: -8px 0 12px; }
 
