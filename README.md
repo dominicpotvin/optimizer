@@ -42,7 +42,7 @@ Colonnes (entêtes insensibles à la casse/accents) :
 
 ### Documentation
 
-- [docs/cahier-des-charges.docx](docs/cahier-des-charges.docx) — cahier des charges complet (v2.0).
+- [docs/CAHIER-DES-CHARGES.md](docs/CAHIER-DES-CHARGES.md) — cahier des charges complet (v2.0).
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — conteneurs, modules, schéma de données, API.
 - [docs/ALGORITHME.md](docs/ALGORITHME.md) — optimisation de coupe (1D cutting stock) et perçage.
 - [docs/specs/](docs/specs/) — cahier des charges d'origine du perçage (désormais intégré).
@@ -153,7 +153,7 @@ Columns (headers are case/accent-insensitive):
 
 ### Documentation
 
-- [docs/cahier-des-charges.docx](docs/cahier-des-charges.docx) — full specification (v2.0, in French).
+- [docs/CAHIER-DES-CHARGES.md](docs/CAHIER-DES-CHARGES.md) — full specification (v2.0, in French).
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — containers, modules, data schema, API.
 - [docs/ALGORITHME.md](docs/ALGORITHME.md) — cutting optimization (1D cutting stock) and drilling.
 - [docs/specs/](docs/specs/) — original drilling specification (now integrated).
