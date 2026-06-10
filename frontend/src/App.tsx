@@ -5,6 +5,7 @@ import ResultView from './ResultView'
 import DrillingView from './DrillingView'
 import History from './History'
 import Icon from './Icon'
+import SectionHelp from './SectionHelp'
 import * as api from './api'
 import type { JobSummary, PartDrilling, PartType, Problem, Solution, StockType } from './types'
 import {
@@ -317,7 +318,7 @@ export default function App() {
 
       {/* Donnees de base */}
       <div className="card">
-        <h2>Donnees de base</h2>
+        <h2>Donnees de base <SectionHelp topic="base" /></h2>
         <div className="row">
           <div style={{ flex: '1 1 280px' }}>
             <label htmlFor="job">Numero de job (texte ou code-barres)</label>
@@ -346,7 +347,7 @@ export default function App() {
 
       {/* Inventaire de stock */}
       <div className="card">
-        <h2>Longueurs de stock disponibles</h2>
+        <h2>Longueurs de stock disponibles <SectionHelp topic="stock" /></h2>
         <p className="hint">Laissez « dispo » vide pour une quantite illimitee.</p>
         <table>
           <thead>
@@ -400,7 +401,7 @@ export default function App() {
 
       {/* Liste de coupe */}
       <div className="card">
-        <h2>Liste de coupe</h2>
+        <h2>Liste de coupe <SectionHelp topic="cutlist" /></h2>
         <div className="toolbar" style={{ marginBottom: 12 }}>
           <button className="secondary" onClick={() => fileRef.current?.click()}>
             <Icon name="upload" /> Importer Excel / CSV
@@ -471,7 +472,7 @@ export default function App() {
 
       {/* Paramètres de perçage */}
       <div className="card">
-        <h2>Perçage — répartition des trous</h2>
+        <h2>Perçage — répartition des trous <SectionHelp topic="drilling" /></h2>
         <p className="hint">
           Appliqué à toutes les pièces ; le nombre de trous s'ajuste selon la longueur (réparti
           symétriquement, marges de bout = points de départ).

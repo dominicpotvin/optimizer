@@ -1,6 +1,7 @@
 // (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 import type { JobSummary } from './types'
 import Icon from './Icon'
+import SectionHelp from './SectionHelp'
 
 interface Props {
   jobs: JobSummary[]
@@ -14,7 +15,7 @@ export default function History({ jobs, dbAvailable, onLoad, onDelete, onRefresh
   return (
     <div className="card">
       <h2>
-        Historique des jobs
+        Historique des jobs <SectionHelp topic="history" />
         <button className="ghost" style={{ marginLeft: 'auto' }} onClick={onRefresh}>
           <Icon name="refresh" /> Rafraichir
         </button>

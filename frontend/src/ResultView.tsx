@@ -2,6 +2,7 @@
 import { formatLength, type UnitSystem } from './units'
 import type { BarPlan, PartType, Solution } from './types'
 import Icon from './Icon'
+import SectionHelp from './SectionHelp'
 
 function colorFor(label: string): string {
   let h = 0
@@ -91,7 +92,7 @@ export default function ResultView({
 
   return (
     <div className="card">
-      <h2>Resultat — plan de coupe</h2>
+      <h2>Resultat — plan de coupe <SectionHelp topic="result" /></h2>
 
       {!solution.complete && (
         <div className="banner warn">

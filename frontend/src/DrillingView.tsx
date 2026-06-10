@@ -2,6 +2,7 @@
 import { formatLength, type UnitSystem } from './units'
 import type { PartDrilling } from './types'
 import Icon from './Icon'
+import SectionHelp from './SectionHelp'
 
 function Cote({ leftPct, widthPct, label }: { leftPct: number; widthPct: number; label: string }) {
   return (
@@ -113,7 +114,7 @@ interface Props {
 export default function DrillingView({ results, system, onExport }: Props) {
   return (
     <div className="card">
-      <h2>Plan de perçage — points de départ par pièce</h2>
+      <h2>Plan de perçage — points de départ par pièce <SectionHelp topic="drillplan" /></h2>
       <p className="hint">
         Répartition symétrique ; * = trou central. La « marge de bout » est le point de départ
         depuis chaque extrémité.
