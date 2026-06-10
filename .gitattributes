@@ -1,0 +1,9 @@
+# Normalise les fins de ligne en LF dans le dépôt (builds Linux/Docker).
+* text=auto eol=lf
+
+# Fichiers binaires : ne jamais normaliser.
+*.xlsx binary
+*.docx binary
+*.png binary
+*.jpg binary
+*.ico binary

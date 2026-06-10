@@ -1,0 +1,55 @@
+# Optimiseur de coupe — 3 conteneurs separes (convention maison) :
+#   frontend (Nginx, sert le React + proxy /api) · backend (API Rust) · db (PostgreSQL)
+#
+# Test local :  docker compose up --build   puis  http://localhost:8099
+#
+# Ports (choisis pour eviter les conflits avec les conteneurs existants) :
+#   - frontend : 8099 -> 80    (point d'entree navigateur)
+#   - backend  : 8097 -> 8080  (acces direct API, surtout pour debug)
+#   - postgres : 5436 -> 5432
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: optimiseur-db
+    environment:
+      POSTGRES_USER: optimiseur
+      POSTGRES_PASSWORD: optimiseur
+      POSTGRES_DB: optimiseur
+    ports:
+      - "5436:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U optimiseur -d optimiseur"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  backend:
+    build:
+      context: ./backend
+    container_name: optimiseur-backend
+    environment:
+      DATABASE_URL: postgres://optimiseur:optimiseur@db:5432/optimiseur
+      PORT: "8080"
+      RUST_LOG: info,tower_http=warn
+    ports:
+      - "8097:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: optimiseur-frontend
+    ports:
+      - "8099:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  pgdata:

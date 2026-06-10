@@ -1,0 +1,167 @@
+:root {
+  --bg: #0f1115;
+  --surface: #181b22;
+  --surface-2: #20242d;
+  --border: #2c313c;
+  --text: #e6e9ef;
+  --text-dim: #9aa3b2;
+  --accent: #4f8cff;
+  --accent-hover: #3d76e0;
+  --ok: #3fb950;
+  --warn: #d29922;
+  --err: #f85149;
+  --reuse: #2ea043;
+  --radius: 8px;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f4f6fa;
+    --surface: #ffffff;
+    --surface-2: #f0f2f6;
+    --border: #d8dde6;
+    --text: #1a1d24;
+    --text-dim: #5a6472;
+    --accent: #2f6fed;
+    --accent-hover: #245bc7;
+    --ok: #1a7f37;
+    --warn: #9a6700;
+    --err: #cf222e;
+    --reuse: #1a7f37;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+.wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 60px; }
+
+header.app {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
+  justify-content: space-between; margin-bottom: 20px;
+}
+header.app h1 { font-size: 1.35rem; margin: 0; }
+header.app .sub { color: var(--text-dim); font-size: 0.85rem; margin: 2px 0 0; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 18px;
+}
+.card h2 { font-size: 1rem; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
+.card .hint { color: var(--text-dim); font-size: 0.8rem; margin: -8px 0 12px; }
+
+label { display: block; font-size: 0.78rem; color: var(--text-dim); margin-bottom: 4px; }
+input, select {
+  width: 100%; padding: 8px 10px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius); color: var(--text); font-size: 0.95rem;
+  font-family: inherit;
+}
+input:focus, select:focus { outline: none; border-color: var(--accent); }
+
+button {
+  padding: 9px 14px; background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius); font-size: 0.92rem; font-weight: 600; cursor: pointer;
+  font-family: inherit;
+}
+button:hover { background: var(--accent-hover); }
+button.secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+button.secondary:hover { background: var(--border); }
+button.ghost { background: transparent; color: var(--accent); border: none; padding: 4px 8px; }
+button.danger { background: transparent; color: var(--err); border: 1px solid var(--border); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button.big { padding: 13px 22px; font-size: 1rem; }
+
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+.toolbar { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.seg button { background: var(--surface-2); color: var(--text-dim); border: none; border-radius: 0; font-weight: 500; }
+.seg button.active { background: var(--accent); color: #fff; }
+
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
+th { color: var(--text-dim); font-weight: 600; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.03em; }
+td input, td .lenfield input { padding: 6px 8px; font-size: 0.9rem; }
+td.num { width: 90px; }
+td.act { width: 40px; text-align: center; }
+
+.lenfield { display: flex; gap: 4px; align-items: center; }
+.lenfield .u { color: var(--text-dim); font-size: 0.8rem; min-width: 22px; }
+
+.stats { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+.stat {
+  flex: 1 1 130px; background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 10px 12px;
+}
+.stat .k { font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; }
+.stat .v { font-size: 1.2rem; font-weight: 700; margin-top: 2px; }
+.stat .v small { font-size: 0.7rem; font-weight: 500; color: var(--text-dim); }
+
+.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.bar-row .lab { width: 120px; font-size: 0.8rem; color: var(--text-dim); flex-shrink: 0; }
+.bar-row .svgwrap { flex: 1; }
+.bar-row .meta { width: 140px; font-size: 0.78rem; text-align: right; flex-shrink: 0; }
+.bar-row .meta .reuse { color: var(--reuse); }
+.bar-row .meta .waste { color: var(--warn); }
+
+.banner { padding: 10px 12px; border-radius: var(--radius); font-size: 0.88rem; margin-bottom: 14px; }
+.banner.err { background: color-mix(in srgb, var(--err) 12%, var(--surface)); border: 1px solid var(--err); color: var(--err); }
+.banner.warn { background: color-mix(in srgb, var(--warn) 14%, var(--surface)); border: 1px solid var(--warn); color: var(--warn); }
+.banner.ok { background: color-mix(in srgb, var(--ok) 12%, var(--surface)); border: 1px solid var(--ok); color: var(--ok); }
+
+.history-item {
+  display: flex; align-items: center; gap: 10px; justify-content: space-between;
+  padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 6px;
+}
+.history-item .jn { font-weight: 600; }
+.history-item .dt { color: var(--text-dim); font-size: 0.78rem; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 14px; font-size: 0.78rem; color: var(--text-dim); }
+.legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+
+.muted { color: var(--text-dim); font-size: 0.82rem; }
+.barcode-hint { font-size: 0.72rem; color: var(--text-dim); margin-top: 3px; }
+
+/* Perçage */
+.drill-piece { padding: 12px 0; border-bottom: 1px solid var(--border); }
+.drill-piece:last-of-type { border-bottom: none; }
+.drill-head { font-size: 0.9rem; margin-bottom: 8px; }
+.drill-bar {
+  position: relative; height: 26px; border-radius: 5px;
+  background: var(--surface-2); border: 1px solid var(--border); margin: 4px 0 8px;
+}
+.drill-bar .hole {
+  position: absolute; top: 50%; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--accent); transform: translate(-50%, -50%);
+  border: 1px solid color-mix(in srgb, var(--accent) 60%, #000);
+}
+.drill-bar .hole.center { background: var(--ok); width: 11px; height: 11px; }
+/* Cotes (dimensions) sous la barre de perçage */
+.drill-cotes { position: relative; height: 20px; margin: 0 0 6px; }
+.cote {
+  position: absolute; top: 9px; height: 0; border-top: 1px solid var(--text-dim);
+  min-width: 1px;
+}
+.cote::before, .cote::after {
+  content: ''; position: absolute; top: -4px; height: 9px; border-left: 1px solid var(--text-dim);
+}
+.cote::before { left: 0; }
+.cote::after { right: 0; }
+.cote-val {
+  position: absolute; top: -8px; left: 50%; transform: translateX(-50%);
+  background: var(--surface); padding: 0 4px; font-size: 0.68rem; color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.drill-details summary { cursor: pointer; color: var(--text-dim); font-size: 0.82rem; }
+.drill-details table { margin-top: 8px; max-width: 420px; }
+.drill-details td, .drill-details th { text-align: right; }
+.drill-details td:first-child, .drill-details th:first-child { text-align: center; }
+tr.center-row td { color: var(--ok); font-weight: 600; }

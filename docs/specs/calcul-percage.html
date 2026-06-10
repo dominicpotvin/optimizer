@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calcul de percage - Profile en U</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --surface: #181b22;
+    --surface-2: #20242d;
+    --border: #2c313c;
+    --text: #e6e9ef;
+    --text-dim: #9aa3b2;
+    --accent: #4f8cff;
+    --accent-hover: #3d76e0;
+    --ok: #3fb950;
+    --err: #f85149;
+    --radius: 8px;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f4f6fa;
+      --surface: #ffffff;
+      --surface-2: #f0f2f6;
+      --border: #d8dde6;
+      --text: #1a1d24;
+      --text-dim: #5a6472;
+      --accent: #2f6fed;
+      --accent-hover: #245bc7;
+      --ok: #1a7f37;
+      --err: #cf222e;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 24px 16px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  .sub { color: var(--text-dim); font-size: 0.88rem; margin: 0 0 24px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+  label { display: block; font-size: 0.82rem; color: var(--text-dim); margin-bottom: 6px; }
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-size: 1rem;
+    font-family: inherit;
+  }
+  input:focus { outline: none; border-color: var(--accent); }
+  button {
+    margin-top: 18px;
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover { background: var(--accent-hover); }
+  .result { display: none; }
+  .result.show { display: block; }
+  .summary {
+    display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;
+  }
+  .stat {
+    flex: 1 1 130px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+  }
+  .stat .k { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; }
+  .stat .v { font-size: 1.25rem; font-weight: 700; margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--border); }
+  th:first-child, td:first-child { text-align: center; }
+  th { color: var(--text-dim); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  tr.center-row td { color: var(--accent); font-weight: 600; }
+  .error {
+    background: color-mix(in srgb, var(--err) 12%, var(--surface));
+    border: 1px solid var(--err);
+    color: var(--err);
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+  }
+  .params {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 16px;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+  details summary { cursor: pointer; color: var(--text-dim); font-size: 0.85rem; }
+  details p { font-size: 0.85rem; color: var(--text-dim); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Calcul de percage - Profile en U</h1>
+  <p class="sub">Repartition symetrique des trous a partir du centre du profile.</p>
+
+  <div class="card">
+    <div class="grid">
+      <div>
+        <label for="longueur">Longueur du profile (mm)</label>
+        <input type="number" id="longueur" min="1" step="1" placeholder="ex. 2400" value="2400">
+      </div>
+      <div>
+        <label for="pas">Entraxe centre-a-centre (mm)</label>
+        <input type="number" id="pas" min="1" step="1" value="112">
+      </div>
+      <div>
+        <label for="margeMin">Marge de bout min (mm)</label>
+        <input type="number" id="margeMin" min="0" step="1" value="40">
+      </div>
+      <div>
+        <label for="margeMax">Marge de bout max (mm)</label>
+        <input type="number" id="margeMax" min="1" step="1" value="112">
+      </div>
+    </div>
+    <button id="calc">Calculer</button>
+  </div>
+
+  <div class="card result" id="result"></div>
+
+  <div class="card">
+    <details>
+      <summary>Methode de calcul</summary>
+      <p>Repartition symetrique autour du centre du profile. Le nombre de trous N est
+      choisi pour que la marge de bout (bord du profile au centre du trou extreme) reste
+      dans l'intervalle [marge min, marge max]. Si N est impair, un trou est au centre exact ;
+      si N est pair, les trous encadrent le centre a +/- (entraxe / 2). On retient le N
+      valide qui place les trous extremes le plus pres possible de la marge max, en gardant
+      l'equilibre. Si aucune configuration ne respecte les deux bornes, le calcul est
+      declare impossible pour cette longueur.</p>
+    </details>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  function calculer(L, pas, margeMin, margeMax) {
+    if (!(L > 0) || !(pas > 0) || margeMin < 0 || margeMax < margeMin) {
+      return { ok: false, msg: "Parametres invalides." };
+    }
+
+    // span = (N-1) * pas ; marge = (L - span) / 2
+    // On cherche le plus grand N >= 1 tel que marge dans [margeMin, margeMax].
+    // marge max -> N min ; marge min -> N max. On itere de N=1 vers le haut
+    // et on garde les N valides, puis on choisit selon la regle d'equilibre.
+
+    var candidats = [];
+    // Nmax theorique : quand marge = margeMin -> span = L - 2*margeMin
+    var spanMaxPossible = L - 2 * margeMin;
+    var Nmax = Math.floor(spanMaxPossible / pas) + 1;
+    if (Nmax < 1) Nmax = 1;
+
+    for (var N = 1; N <= Nmax + 1; N++) {
+      var span = (N - 1) * pas;
+      var marge = (L - span) / 2;
+      if (marge >= margeMin - 1e-9 && marge <= margeMax + 1e-9) {
+        candidats.push({ N: N, span: span, marge: marge });
+      }
+    }
+
+    if (candidats.length === 0) {
+      return {
+        ok: false,
+        msg: "Aucune repartition possible : avec un entraxe de " + pas +
+             " mm et des marges de bout entre " + margeMin + " et " + margeMax +
+             " mm, la longueur " + L + " mm ne permet pas de placer les trous extremes " +
+             "dans la plage autorisee. Ajuster la longueur ou les marges."
+      };
+    }
+
+    // Equilibre : on privilegie la marge la plus grande sous margeMax,
+    // donc le N qui donne la plus grande marge valide (= N le plus petit valide).
+    // Cela centre au mieux et respecte "pas plus de margeMax du bord".
+    candidats.sort(function (a, b) { return b.marge - a.marge; });
+    var choix = candidats[0];
+
+    var N = choix.N, span = choix.span, marge = choix.marge;
+    var centre = L / 2;
+    var trous = [];
+
+    if (N % 2 === 1) {
+      // impair : trou central + paires
+      var k = (N - 1) / 2;
+      for (var i = -k; i <= k; i++) {
+        trous.push(centre + i * pas);
+      }
+    } else {
+      // pair : trous a +/- pas/2, pas*3/2, ...
+      var demi = N / 2;
+      for (var j = -demi; j <= demi; j++) {
+        if (j === 0) continue;
+        var signe = j < 0 ? -1 : 1;
+        var rang = Math.abs(j) - 0.5;
+        trous.push(centre + signe * rang * pas);
+      }
+    }
+
+    trous.sort(function (a, b) { return a - b; });
+
+    var liste = trous.map(function (posA, idx) {
+      return {
+        num: idx + 1,
+        depuisA: posA,
+        depuisB: L - posA,
+        estCentre: Math.abs(posA - centre) < 1e-6
+      };
+    });
+
+    return {
+      ok: true,
+      L: L, N: N, pas: pas, marge: marge,
+      margeMin: margeMin, margeMax: margeMax,
+      centre: centre,
+      parite: (N % 2 === 1) ? "impair (trou central)" : "pair (encadre le centre)",
+      trous: liste
+    };
+  }
+
+  function fmt(x) {
+    return (Math.round(x * 100) / 100).toLocaleString("fr-CA", {
+      minimumFractionDigits: 0, maximumFractionDigits: 2
+    });
+  }
+
+  function rendre(r) {
+    var el = document.getElementById("result");
+    el.classList.add("show");
+
+    if (!r.ok) {
+      el.innerHTML = '<div class="error">' + r.msg + '</div>';
+      return;
+    }
+
+    var rows = r.trous.map(function (t) {
+      return '<tr class="' + (t.estCentre ? "center-row" : "") + '">' +
+        '<td>' + t.num + (t.estCentre ? " *" : "") + '</td>' +
+        '<td>' + fmt(t.depuisA) + '</td>' +
+        '<td>' + fmt(t.depuisB) + '</td>' +
+      '</tr>';
+    }).join("");
+
+    el.innerHTML =
+      '<div class="summary">' +
+        '<div class="stat"><div class="k">Nombre de trous</div><div class="v">' + r.N + '</div></div>' +
+        '<div class="stat"><div class="k">Marge de bout</div><div class="v">' + fmt(r.marge) + ' mm</div></div>' +
+        '<div class="stat"><div class="k">Entraxe</div><div class="v">' + fmt(r.pas) + ' mm</div></div>' +
+        '<div class="stat"><div class="k">Centre profile</div><div class="v">' + fmt(r.centre) + ' mm</div></div>' +
+      '</div>' +
+      '<table><thead><tr>' +
+        '<th>Trou</th><th>Depuis extremite A (mm)</th><th>Depuis extremite B (mm)</th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<div class="params">Repartition ' + r.parite +
+        '. Marge bout = ' + fmt(r.marge) + ' mm (plage ' + r.margeMin + '-' + r.margeMax + ' mm). ' +
+        '* = trou central.</div>';
+  }
+
+  function run() {
+    var L = parseFloat(document.getElementById("longueur").value);
+    var pas = parseFloat(document.getElementById("pas").value);
+    var mMin = parseFloat(document.getElementById("margeMin").value);
+    var mMax = parseFloat(document.getElementById("margeMax").value);
+    rendre(calculer(L, pas, mMin, mMax));
+  }
+
+  document.getElementById("calc").addEventListener("click", run);
+  ["longueur", "pas", "margeMin", "margeMax"].forEach(function (id) {
+    document.getElementById(id).addEventListener("keydown", function (e) {
+      if (e.key === "Enter") run();
+    });
+  });
+
+  run();
+})();
+</script>
+</body>
+</html>
