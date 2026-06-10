@@ -4,6 +4,7 @@ import LengthInput from './LengthInput'
 import ResultView from './ResultView'
 import DrillingView from './DrillingView'
 import History from './History'
+import Icon from './Icon'
 import * as api from './api'
 import type { JobSummary, PartDrilling, PartType, Problem, Solution, StockType } from './types'
 import {
@@ -63,6 +64,15 @@ export default function App() {
   const [saving, setSaving] = useState(false)
   const [jobs, setJobs] = useState<JobSummary[]>([])
   const [dbAvailable, setDbAvailable] = useState(true)
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    try {
+      const saved = localStorage.getItem('theme')
+      if (saved === 'light' || saved === 'dark') return saved
+    } catch {
+      /* ignore */
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  })
   const fileRef = useRef<HTMLInputElement>(null)
 
   const lenUnit = lengthUnitFor(system)
@@ -72,6 +82,15 @@ export default function App() {
     refreshJobs()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+    try {
+      localStorage.setItem('theme', theme)
+    } catch {
+      /* ignore */
+    }
+  }, [theme])
 
   function buildProblem(): { problem: Problem; apiParts: PartType[]; apiStocks: StockType[] } | null {
     const apiStocks: StockType[] = stocks
@@ -274,12 +293,22 @@ export default function App() {
             <p className="sub">Plans de coupe d'extrusions — minimisation des pertes · GestEase</p>
           </div>
         </div>
-        <div className="seg" role="group" aria-label="systeme d'unites">
-          <button className={system === 'imperial' ? 'active' : ''} onClick={() => setSystem('imperial')}>
-            Imperial (pi/po)
-          </button>
-          <button className={system === 'metric' ? 'active' : ''} onClick={() => setSystem('metric')}>
-            Metrique (mm)
+        <div className="header-right">
+          <div className="seg" role="group" aria-label="systeme d'unites">
+            <button className={system === 'imperial' ? 'active' : ''} onClick={() => setSystem('imperial')}>
+              Imperial (pi/po)
+            </button>
+            <button className={system === 'metric' ? 'active' : ''} onClick={() => setSystem('metric')}>
+              Metrique (mm)
+            </button>
+          </div>
+          <button
+            className="theme-toggle"
+            onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
+            title={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
+            aria-label={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
+          >
+            <Icon name={theme === 'dark' ? 'light_mode' : 'dark_mode'} />
           </button>
         </div>
       </header>
@@ -302,7 +331,7 @@ export default function App() {
                 if (e.key === 'Enter') (e.target as HTMLInputElement).blur()
               }}
             />
-            <div className="barcode-hint">📷 Compatible lecteur code-barres (USB/clavier) : scannez, le champ se remplit.</div>
+            <div className="barcode-hint">Compatible lecteur code-barres (USB/clavier) : scannez, le champ se remplit.</div>
           </div>
           <div style={{ flex: '0 1 160px' }}>
             <label>Trait de scie (kerf)</label>
@@ -349,8 +378,8 @@ export default function App() {
                   />
                 </td>
                 <td className="act">
-                  <button className="ghost" onClick={() => setStocks((r) => r.filter((x) => x.key !== s.key))}>
-                    ✕
+                  <button className="ghost" onClick={() => setStocks((r) => r.filter((x) => x.key !== s.key))} aria-label="Retirer">
+                    <Icon name="close" />
                   </button>
                 </td>
               </tr>
@@ -374,10 +403,10 @@ export default function App() {
         <h2>Liste de coupe</h2>
         <div className="toolbar" style={{ marginBottom: 12 }}>
           <button className="secondary" onClick={() => fileRef.current?.click()}>
-            📥 Importer Excel / CSV
+            <Icon name="upload" /> Importer Excel / CSV
           </button>
           <button className="secondary" onClick={() => api.downloadTemplate()}>
-            ⬇ Modele d'import (CSV)
+            <Icon name="download" /> Modele d'import (CSV)
           </button>
           <input
             ref={fileRef}
@@ -422,8 +451,8 @@ export default function App() {
                   />
                 </td>
                 <td className="act">
-                  <button className="ghost" onClick={() => setParts((r) => r.filter((x) => x.key !== p.key))}>
-                    ✕
+                  <button className="ghost" onClick={() => setParts((r) => r.filter((x) => x.key !== p.key))} aria-label="Retirer">
+                    <Icon name="close" />
                   </button>
                 </td>
               </tr>
@@ -465,7 +494,13 @@ export default function App() {
 
       <div className="card" style={{ textAlign: 'center' }}>
         <button className="big" onClick={runOptimize} disabled={loading}>
-          {loading ? 'Calcul en cours…' : '⚙ Optimiser (coupe + perçage)'}
+          {loading ? (
+            'Calcul en cours…'
+          ) : (
+            <>
+              <Icon name="tune" /> Optimiser (coupe + perçage)
+            </>
+          )}
         </button>
       </div>
 

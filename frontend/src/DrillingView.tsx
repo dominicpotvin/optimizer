@@ -1,6 +1,7 @@
 // (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 import { formatLength, type UnitSystem } from './units'
 import type { PartDrilling } from './types'
+import Icon from './Icon'
 
 function Cote({ leftPct, widthPct, label }: { leftPct: number; widthPct: number; label: string }) {
   return (
@@ -22,7 +23,7 @@ function Piece({ d, system }: { d: PartDrilling; system: UnitSystem }) {
       <div className="drill-piece">
         <div className="drill-head">{title}</div>
         <div className="banner warn" style={{ margin: '6px 0 0' }}>
-          ⚠ Perçage impossible pour cette longueur avec les paramètres actuels.
+          <Icon name="warning" /> Perçage impossible pour cette longueur avec les paramètres actuels.
         </div>
       </div>
     )
@@ -90,7 +91,7 @@ function Piece({ d, system }: { d: PartDrilling; system: UnitSystem }) {
               <tr key={h.index} className={h.is_center ? 'center-row' : ''}>
                 <td>
                   {h.index}
-                  {h.is_center ? ' ✱' : ''}
+                  {h.is_center ? ' *' : ''}
                 </td>
                 <td>{formatLength(h.from_a_um, system)}</td>
                 <td>{formatLength(h.from_b_um, system)}</td>
@@ -114,14 +115,16 @@ export default function DrillingView({ results, system, onExport }: Props) {
     <div className="card">
       <h2>Plan de perçage — points de départ par pièce</h2>
       <p className="hint">
-        Répartition symétrique ; ✱ = trou central. La « marge de bout » est le point de départ
+        Répartition symétrique ; * = trou central. La « marge de bout » est le point de départ
         depuis chaque extrémité.
       </p>
       {results.map((d, i) => (
         <Piece key={i} d={d} system={system} />
       ))}
       <div className="toolbar" style={{ marginTop: 14 }}>
-        <button onClick={onExport}>⬇ Exporter le perçage (CSV)</button>
+        <button onClick={onExport}>
+          <Icon name="download" /> Exporter le perçage (CSV)
+        </button>
       </div>
     </div>
   )

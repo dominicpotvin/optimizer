@@ -5,6 +5,24 @@
     <link rel="icon" type="image/x-icon" href="/LogoGestEase256.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Optimiseur de coupe — GestEase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&display=block"
+    />
+    <script>
+      // Applique le thème (clair/sombre) avant le rendu pour éviter le flash.
+      (function () {
+        try {
+          var t = localStorage.getItem('theme')
+          if (t !== 'light' && t !== 'dark') {
+            t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          }
+          if (t === 'dark') document.documentElement.classList.add('dark')
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

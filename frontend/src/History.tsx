@@ -1,5 +1,6 @@
 // (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 import type { JobSummary } from './types'
+import Icon from './Icon'
 
 interface Props {
   jobs: JobSummary[]
@@ -15,7 +16,7 @@ export default function History({ jobs, dbAvailable, onLoad, onDelete, onRefresh
       <h2>
         Historique des jobs
         <button className="ghost" style={{ marginLeft: 'auto' }} onClick={onRefresh}>
-          ↻ Rafraichir
+          <Icon name="refresh" /> Rafraichir
         </button>
       </h2>
       {!dbAvailable && <div className="muted">Base de donnees non connectee.</div>}

@@ -1,6 +1,7 @@
 // (c) 2026 GestEase Technologie Inc. - Licence MIT (voir LICENSE).
 import { formatLength, type UnitSystem } from './units'
 import type { BarPlan, PartType, Solution } from './types'
+import Icon from './Icon'
 
 function colorFor(label: string): string {
   let h = 0
@@ -94,7 +95,7 @@ export default function ResultView({
 
       {!solution.complete && (
         <div className="banner warn">
-          ⚠ {solution.unplaced.length} piece(s) n'ont pas pu etre placees (stock insuffisant ou
+          <Icon name="warning" /> {solution.unplaced.length} piece(s) n'ont pas pu etre placees (stock insuffisant ou
           piece plus longue que toute barre disponible).
         </div>
       )}
@@ -155,9 +156,17 @@ export default function ResultView({
       </div>
 
       <div className="toolbar" style={{ marginTop: 16 }}>
-        <button onClick={onExport}>⬇ Exporter le plan (CSV)</button>
+        <button onClick={onExport}>
+          <Icon name="download" /> Exporter le plan (CSV)
+        </button>
         <button className="secondary" onClick={onSave} disabled={saving || !dbAvailable} title={!dbAvailable ? 'Base de donnees indisponible' : ''}>
-          {saving ? 'Enregistrement…' : '💾 Enregistrer le job'}
+          {saving ? (
+            'Enregistrement…'
+          ) : (
+            <>
+              <Icon name="save" /> Enregistrer le job
+            </>
+          )}
         </button>
         {!dbAvailable && <span className="muted">Base de donnees non connectee — enregistrement desactive.</span>}
       </div>

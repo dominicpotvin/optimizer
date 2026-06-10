@@ -22,22 +22,20 @@
   --radius: 6px;
   --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1A1C20;
-    --surface: #24262C;
-    --surface-2: #2A2D35;
-    --border: #32353E;
-    --text: #F5F5F5;
-    --text-dim: #A7A7A7;
-    --accent: #38BDF8;
-    --accent-hover: #0EA5E9;
-    --ok: #34D399;
-    --warn: #FBBF24;
-    --err: #F87171;
-    --reuse: #34D399;
-    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
-  }
+:root.dark {
+  --bg: #1A1C20;
+  --surface: #24262C;
+  --surface-2: #2A2D35;
+  --border: #32353E;
+  --text: #F5F5F5;
+  --text-dim: #A7A7A7;
+  --accent: #38BDF8;
+  --accent-hover: #0EA5E9;
+  --ok: #34D399;
+  --warn: #FBBF24;
+  --err: #F87171;
+  --reuse: #34D399;
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
 }
 * { box-sizing: border-box; }
 body {
@@ -67,6 +65,22 @@ header.app .sub { color: var(--text-dim); font-size: 0.85rem; margin: 2px 0 0; }
 
 .brand { display: flex; align-items: center; gap: 12px; }
 .brand-logo { width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0; }
+
+.header-right { display: flex; align-items: center; gap: 10px; }
+.theme-toggle {
+  width: 38px; height: 38px; padding: 0;
+  background: var(--surface-2); color: var(--text);
+  border: 1px solid var(--border); border-radius: var(--radius);
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal; font-style: normal; font-size: 1.2em; line-height: 1;
+  letter-spacing: normal; text-transform: none; display: inline-block;
+  white-space: nowrap; direction: ltr; vertical-align: -0.18em;
+  font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased;
+}
 .card h2 { font-size: 1rem; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; color: var(--accent); font-weight: 500; }
 .card .hint { color: var(--text-dim); font-size: 0.8rem; margin: -8px 0 12px; }
 
@@ -84,7 +98,8 @@ input:focus, select:focus {
 }
 
 button {
-  padding: 9px 14px; background: var(--accent); color: #fff; border: none;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 9px 14px; background: var(--accent); color: var(--text-on-accent); border: none;
   border-radius: var(--radius); font-size: 0.92rem; font-weight: 500; cursor: pointer;
   font-family: inherit;
 }
