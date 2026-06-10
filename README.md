@@ -1,10 +1,20 @@
-# Optimiseur de coupe — extrusions
+# Optimiseur de coupe — extrusions · Cutting Optimizer
+
+**Français** · [English](#english)
+
+> © 2026 **GestEase Technologie Inc.** — Tous droits réservés / All rights reserved.
+> Logiciel libre sous licence [MIT](LICENSE) · Open-source software under the [MIT](LICENSE) License.
+> La notice de copyright doit être conservée (attribution obligatoire) · The copyright notice must be retained (attribution required).
+
+---
+
+## Français
 
 Outil web pour générer des **plans de coupe** à partir de longueurs de barres brutes
 (plusieurs longueurs possibles) et d'une **liste de coupe**, en **minimisant la perte**.
 Backend **Rust** (Axum), persistance **PostgreSQL**, frontend **React** (Vite + TypeScript).
 
-## Fonctionnalités
+### Fonctionnalités
 
 - **Optimiseur 1D (cutting stock)** : minimise la matière brute consommée, donc le résiduel.
 - **Multi-longueurs de stock** (dispo limitée ou illimitée) — choisit le meilleur mélange.
@@ -18,7 +28,7 @@ Backend **Rust** (Axum), persistance **PostgreSQL**, frontend **React** (Vite + 
 
 Calculs en arithmétique **entière (micromètres)** → aucune erreur d'arrondi sur les fractions.
 
-## Format d'import (modèle)
+### Format d'import (modèle)
 
 Colonnes (entêtes insensibles à la casse/accents) :
 
@@ -30,14 +40,14 @@ Colonnes (entêtes insensibles à la casse/accents) :
 - `unite` absente ⇒ unité choisie dans l'interface (pi/po/mm). Valeurs : `pi`, `po`, `mm`.
 - `longueur` accepte aussi des formats comme `5'`, `60"`, `3-1/2"`, `1524mm`.
 
-## Documentation
+### Documentation
 
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — conteneurs, modules, schéma de données, API.
 - [docs/ALGORITHME.md](docs/ALGORITHME.md) — optimisation de coupe (1D cutting stock) et perçage.
 - [docs/specs/](docs/specs/) — cahier des charges d'origine du perçage (désormais intégré).
 - [exemples/modele_liste_coupe.xlsx](exemples/modele_liste_coupe.xlsx) — modèle d'import prêt à l'emploi.
 
-## Structure du projet
+### Structure du projet
 
 ```
 optimiseur-coupe/
@@ -54,7 +64,7 @@ optimiseur-coupe/
 └── docker-compose.yml  pile 3 conteneurs (frontend · backend · db)
 ```
 
-## Lancer en local (Docker)
+### Lancer en local (Docker)
 
 ```bash
 docker compose up --build
@@ -64,7 +74,7 @@ Puis ouvrir **http://localhost:8099**.
 
 Ports : frontend `8099→80` (entrée navigateur), backend `8097→8080` (API/debug), PostgreSQL `5436→5432`.
 
-## Développement
+### Développement
 
 ```bash
 # Backend (port 8097)
@@ -76,7 +86,7 @@ cd frontend && npm install && npm run dev
 
 Tests du moteur : `cd backend && cargo test`.
 
-## API
+### API
 
 | Méthode | Route | Rôle |
 |--------|-------|------|
@@ -90,7 +100,7 @@ Tests du moteur : `cd backend && cargo test`.
 | GET/DELETE | `/api/jobs/:id` | lit / supprime un job |
 | GET | `/api/health` | sonde |
 
-## Architecture (3 conteneurs)
+### Architecture (3 conteneurs)
 
 - **frontend** — Nginx sert le build React et proxifie `/api/` vers le backend (port 80).
 - **backend** — API Rust/Axum (port 8080), variable `DATABASE_URL`.
@@ -98,8 +108,132 @@ Tests du moteur : `cd backend && cargo test`.
 
 Le code est découplé : le frontend ne parle au backend que via l'API REST `/api/*`.
 
-## Déploiement (devopsweb.dev)
+### Déploiement (devopsweb.dev)
 
 Brancher l'URL dédiée sur le conteneur **frontend** (port 80) — il sert le React et relaie l'API.
 Le **backend** n'a pas besoin d'être exposé publiquement (accès interne via le réseau Docker).
 Variables backend : `DATABASE_URL`, `PORT`.
+
+---
+
+## English
+
+Web tool to generate **cutting plans** from raw bar lengths (multiple lengths supported) and a
+**cut list**, while **minimizing waste**. **Rust** (Axum) backend, **PostgreSQL** persistence,
+**React** (Vite + TypeScript) frontend.
+
+[↑ Français](#français)
+
+### Features
+
+- **1D cutting-stock optimizer**: minimizes raw material consumed, hence the offcut.
+- **Multiple stock lengths** (limited or unlimited availability) — picks the best mix.
+- **Configurable saw kerf** (default 1/8″), accounted for at every cut.
+- **Reusable offcuts**: configurable threshold; above it = back to stock (not waste).
+- **Unit toggle**: imperial (ft/in, fractions) ↔ metric (mm).
+- **Excel (.xlsx) / CSV import** of a cut list + downloadable **CSV template**.
+- **Job number** via keyboard or **barcode scanner** (USB/keyboard-wedge).
+- **CSV export** of the cutting plan and **job history** in the database.
+- **Drilling**: symmetric hole distribution per piece (pitch + end margins), N adjusted to length — the original `calcul-percage` spec, integrated. CSV export of positions.
+
+All maths in **integer arithmetic (micrometers)** → no rounding error on fractions.
+
+### Import format (template)
+
+Columns (headers are case/accent-insensitive):
+
+| jobID | partID | model | longueur *(length)* | quantite *(qty, opt.)* | unite *(unit, opt.)* |
+|-------|--------|-------|---------------------|------------------------|----------------------|
+| JOB-001 | P1 | Profil-U-100 | 6 | 2 | pi |
+
+- `quantite` omitted ⇒ each row = 1 piece.
+- `unite` omitted ⇒ unit selected in the UI (`pi` = ft, `po` = in, `mm`).
+- `longueur` also accepts formats like `5'`, `60"`, `3-1/2"`, `1524mm`.
+
+### Documentation
+
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — containers, modules, data schema, API.
+- [docs/ALGORITHME.md](docs/ALGORITHME.md) — cutting optimization (1D cutting stock) and drilling.
+- [docs/specs/](docs/specs/) — original drilling specification (now integrated).
+- [exemples/modele_liste_coupe.xlsx](exemples/modele_liste_coupe.xlsx) — ready-to-use import template.
+
+### Project structure
+
+```
+optimiseur-coupe/
+├── backend/            Rust (Axum) API + calculation engines       → docs/ARCHITECTURE.md
+│   └── src/
+│       ├── optimizer/  cutting optimization (model, solver, units)
+│       ├── drilling.rs symmetric hole distribution
+│       ├── import.rs   .xlsx / .csv reading
+│       ├── export.rs   CSV exports
+│       └── …
+├── frontend/           React SPA (Vite + TS), served by Nginx
+├── docs/               documentation + original specs
+├── exemples/           Excel import template
+└── docker-compose.yml  3-container stack (frontend · backend · db)
+```
+
+### Run locally (Docker)
+
+```bash
+docker compose up --build
+```
+
+Then open **http://localhost:8099**.
+
+Ports: frontend `8099→80` (browser entry point), backend `8097→8080` (API/debug), PostgreSQL `5436→5432`.
+
+### Development
+
+```bash
+# Backend (port 8097)
+cd backend && PORT=8097 DATABASE_URL=postgres://optimiseur:optimiseur@localhost:5436/optimiseur cargo run
+
+# Frontend (proxies /api -> 8097)
+cd frontend && npm install && npm run dev
+```
+
+Engine tests: `cd backend && cargo test`.
+
+### API
+
+| Method | Route | Purpose |
+|--------|-------|---------|
+| POST | `/api/optimize` | compute a plan (Problem → Solution) |
+| POST | `/api/import` | multipart `file` + `unit` → items |
+| GET | `/api/template.csv` | import template |
+| POST | `/api/export.csv` | export the cutting plan |
+| POST | `/api/drilling` | hole distribution per piece |
+| POST | `/api/drilling.csv` | export hole positions |
+| POST/GET | `/api/jobs` | save / list jobs |
+| GET/DELETE | `/api/jobs/:id` | read / delete a job |
+| GET | `/api/health` | health probe |
+
+### Architecture (3 containers)
+
+- **frontend** — Nginx serves the React build and proxies `/api/` to the backend (port 80).
+- **backend** — Rust/Axum API (port 8080), `DATABASE_URL` variable.
+- **db** — PostgreSQL.
+
+The code is decoupled: the frontend talks to the backend only through the REST API `/api/*`.
+
+### Deployment (devopsweb.dev)
+
+Point the dedicated URL at the **frontend** container (port 80) — it serves React and relays the API.
+The **backend** does not need to be publicly exposed (internal access via the Docker network).
+Backend variables: `DATABASE_URL`, `PORT`.
+
+---
+
+## Licence · License
+
+© 2026 **GestEase Technologie Inc.**
+
+**FR —** Distribué sous licence **MIT** (voir [LICENSE](LICENSE)). Réutilisation, modification et
+distribution libres, à condition de **conserver la notice de copyright** ci-dessus (attribution
+obligatoire). Logiciel fourni « tel quel », sans garantie.
+
+**EN —** Distributed under the **MIT** License (see [LICENSE](LICENSE)). Free to reuse, modify and
+distribute, provided the **copyright notice** above is **retained** (attribution required). Software
+provided "as is", without warranty.

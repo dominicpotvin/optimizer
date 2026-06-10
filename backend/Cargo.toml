@@ -3,6 +3,9 @@ name = "optimiseur-coupe"
 version = "0.1.0"
 edition = "2021"
 description = "Optimiseur de plans de coupe (1D cutting stock) pour extrusions"
+authors = ["GestEase Technologie Inc."]
+license = "MIT"
+repository = "https://github.com/dominicpotvin/optimizer"
 
 [[bin]]
 name = "optimiseur-coupe"
