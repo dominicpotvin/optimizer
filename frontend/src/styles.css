@@ -53,7 +53,7 @@ header.app {
   display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
   justify-content: space-between; margin-bottom: 20px;
 }
-header.app h1 { font-size: 1.35rem; margin: 0; }
+header.app h1 { font-size: 1.35rem; margin: 0; font-weight: 500; }
 header.app .sub { color: var(--text-dim); font-size: 0.85rem; margin: 2px 0 0; }
 
 .card {
@@ -67,7 +67,7 @@ header.app .sub { color: var(--text-dim); font-size: 0.85rem; margin: 2px 0 0; }
 
 .brand { display: flex; align-items: center; gap: 12px; }
 .brand-logo { width: 40px; height: 40px; border-radius: 8px; flex-shrink: 0; }
-.card h2 { font-size: 1rem; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; }
+.card h2 { font-size: 1rem; margin: 0 0 14px; display: flex; align-items: center; gap: 8px; color: var(--accent); font-weight: 500; }
 .card .hint { color: var(--text-dim); font-size: 0.8rem; margin: -8px 0 12px; }
 
 label { display: block; font-size: 0.78rem; color: var(--text-dim); margin-bottom: 4px; }
@@ -77,14 +77,19 @@ input, select {
   border-radius: var(--radius); color: var(--text); font-size: 0.95rem;
   font-family: inherit;
 }
-input:focus, select:focus { outline: none; border-color: var(--accent); }
+input:focus, select:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
 
 button {
   padding: 9px 14px; background: var(--accent); color: #fff; border: none;
-  border-radius: var(--radius); font-size: 0.92rem; font-weight: 600; cursor: pointer;
+  border-radius: var(--radius); font-size: 0.92rem; font-weight: 500; cursor: pointer;
   font-family: inherit;
 }
 button:hover { background: var(--accent-hover); }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 button.secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
 button.secondary:hover { background: var(--border); }
 button.ghost { background: transparent; color: var(--accent); border: none; padding: 4px 8px; }
@@ -101,7 +106,7 @@ button.big { padding: 13px 22px; font-size: 1rem; }
 
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
-th { color: var(--text-dim); font-weight: 600; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.03em; }
+th { color: var(--text-dim); font-weight: 500; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.03em; }
 td input, td .lenfield input { padding: 6px 8px; font-size: 0.9rem; }
 td.num { width: 90px; }
 td.act { width: 40px; text-align: center; }
@@ -115,7 +120,7 @@ td.act { width: 40px; text-align: center; }
   border-radius: var(--radius); padding: 10px 12px;
 }
 .stat .k { font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; }
-.stat .v { font-size: 1.2rem; font-weight: 700; margin-top: 2px; }
+.stat .v { font-size: 1.2rem; font-weight: 500; margin-top: 2px; }
 .stat .v small { font-size: 0.7rem; font-weight: 500; color: var(--text-dim); }
 
 .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
@@ -134,7 +139,7 @@ td.act { width: 40px; text-align: center; }
   display: flex; align-items: center; gap: 10px; justify-content: space-between;
   padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 6px;
 }
-.history-item .jn { font-weight: 600; }
+.history-item .jn { font-weight: 500; }
 .history-item .dt { color: var(--text-dim); font-size: 0.78rem; }
 
 .legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 14px; font-size: 0.78rem; color: var(--text-dim); }
@@ -178,4 +183,4 @@ td.act { width: 40px; text-align: center; }
 .drill-details table { margin-top: 8px; max-width: 420px; }
 .drill-details td, .drill-details th { text-align: right; }
 .drill-details td:first-child, .drill-details th:first-child { text-align: center; }
-tr.center-row td { color: var(--ok); font-weight: 600; }
+tr.center-row td { color: var(--ok); font-weight: 500; }
